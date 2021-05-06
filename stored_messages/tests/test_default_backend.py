@@ -1,6 +1,3 @@
-# -*- coding: utf-8 -*-
-from __future__ import unicode_literals
-
 from .base import BaseTest
 
 from django.contrib.auth.models import AnonymousUser
@@ -15,7 +12,7 @@ from stored_messages.backends import signals
 
 class TestDefaultBackend(BaseTest):
     def setUp(self):
-        super(TestDefaultBackend, self).setUp()
+        super().setUp()
         self.backend = DefaultBackend()
         self.message = self.backend.create_message(STORED_ERROR, 'A message for you ♡')
         self.anon = AnonymousUser()

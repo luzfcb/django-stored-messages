@@ -1,18 +1,17 @@
-# -*- coding: utf-8 -*-
-from __future__ import unicode_literals
 from .base import BackendBaseTest
 
 from django.contrib.messages.storage import default_storage
 
 from stored_messages import add_message, get_messages, STORED_ERROR, DEBUG, ERROR
 
-import mock
+from unittest import mock
 
 
 class TestStorage(BackendBaseTest):
     """
     Test Storage class using default backend
     """
+
     def test_store(self):
         self.request._messages = default_storage(self.request)
         self.request._messages.level = DEBUG

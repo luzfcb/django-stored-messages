@@ -8,6 +8,7 @@ INSTALLED_APPS = [
     "django.contrib.sites",
     "django.contrib.messages",
     "django.contrib.sessions",
+    "django.contrib.admin",
     "stored_messages",
 ]
 
@@ -29,16 +30,14 @@ DATABASES = {
 
 ROOT_URLCONF = "stored_messages.tests.urls"
 
-# Django 1.8 has a new, minimal default set for MIDDLEWARE_CLASSES so be explicit
-MIDDLEWARE_CLASSES = (
+MIDDLEWARE = (
+    'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'django.middleware.security.SecurityMiddleware',
 )
 
 # Django 1.10 requires the TEMPLATES settings. Deprecated since Django 1.8
@@ -61,8 +60,12 @@ TEMPLATES = [
 SITE_ID = 1
 
 MESSAGE_STORAGE = 'stored_messages.storage.PersistentStorage'
+
+redis_host = os.environ.get("REDIS_STORED_MESSAGES_HOST", "localhost")
+redis_port = os.environ.get("REDIS_STORED_MESSAGES_6379_TCP_PORT", "6379")
+
 STORED_MESSAGES = {
-    'REDIS_URL': 'redis://localhost:6379/0',
+    'REDIS_URL': f'redis://{redis_host}:{redis_port}/0',
 }
 
 MOCK_REDIS_SERVER = False

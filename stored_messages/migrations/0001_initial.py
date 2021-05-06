@@ -1,13 +1,11 @@
-# -*- coding: utf-8 -*-
-from __future__ import unicode_literals
-
 import django.utils.timezone
 
-from django.db import models, migrations
+from django.db import migrations, models
 from django.conf import settings
 
 
 class Migration(migrations.Migration):
+    initial = True
 
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
@@ -37,18 +35,18 @@ class Migration(migrations.Migration):
             name='MessageArchive',
             fields=[
                 ('id', models.AutoField(auto_created=True, serialize=False, primary_key=True, verbose_name='ID')),
-                ('message', models.ForeignKey(to='stored_messages.Message')),
-                ('user', models.ForeignKey(to=settings.AUTH_USER_MODEL)),
+                ('message', models.ForeignKey(to='stored_messages.Message', on_delete=models.CASCADE)),
+                ('user', models.ForeignKey(to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE)),
             ],
         ),
         migrations.AddField(
             model_name='inbox',
             name='message',
-            field=models.ForeignKey(to='stored_messages.Message'),
+            field=models.ForeignKey(to='stored_messages.Message', on_delete=models.CASCADE),
         ),
         migrations.AddField(
             model_name='inbox',
             name='user',
-            field=models.ForeignKey(to=settings.AUTH_USER_MODEL),
+            field=models.ForeignKey(to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE),
         ),
     ]

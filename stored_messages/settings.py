@@ -13,12 +13,10 @@ This module provides the `stored_messages_settings` object, that is used to
 access Stored Messages framework settings, checking for user settings first,
 then falling back to the defaults.
 """
-from __future__ import unicode_literals
 
 import importlib
 
 from django.conf import settings
-from django.utils import six
 
 from .constants import *
 
@@ -64,7 +62,7 @@ def perform_import(val, setting_name):
     If the given setting is a string import notation,
     then perform the necessary import or imports.
     """
-    if isinstance(val, six.string_types):
+    if isinstance(val, str):
         return import_from_string(val, setting_name)
     elif isinstance(val, (list, tuple)):
         return [import_from_string(item, setting_name) for item in val]
@@ -81,12 +79,12 @@ def import_from_string(val, setting_name):
         module = importlib.import_module(module_path)
         return getattr(module, class_name)
     except ImportError as e:
-        msg = "Could not import '%s' for setting '%s'. %s: %s." % (val, setting_name,
-                                                                   e.__class__.__name__, e)
+        msg = "Could not import '{}' for setting '{}'. {}: {}.".format(val, setting_name,
+                                                                       e.__class__.__name__, e)
         raise ImportError(msg)
 
 
-class StoredMessagesSettings(object):
+class StoredMessagesSettings:
     """
     A settings object, that allows settings to be accessed as properties.
 

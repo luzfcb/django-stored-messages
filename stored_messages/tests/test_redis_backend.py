@@ -1,7 +1,7 @@
 from .base import BaseTest
 
 import unittest
-import mock
+from unittest import mock
 
 from django.conf import settings
 from django.core.cache import cache
@@ -16,10 +16,11 @@ from stored_messages.backends import signals
 from stored_messages import STORED_ERROR
 
 
-class RedisMock(object):
+class RedisMock:
     """
     Mock the Redis server instance with Django in-memory cache
     """
+
     def rpush(self, key, data):
         l = cache.get(key)
         if l is None:
@@ -79,7 +80,7 @@ except ImportError:
 @unittest.skipIf(REDISPY_MISSING, "redis-py not installed")
 class TestRedisBackend(BaseTest):
     def setUp(self):
-        super(TestRedisBackend, self).setUp()
+        super().setUp()
         self.client = redis.StrictRedis.from_url(settings.STORED_MESSAGES['REDIS_URL'])
         self.backend = RedisBackend()
         self.backend._flush()

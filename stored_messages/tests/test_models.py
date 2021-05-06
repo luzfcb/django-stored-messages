@@ -1,8 +1,6 @@
-# -*- coding: utf-8 -*-
-from __future__ import unicode_literals
 from .base import BaseTest
 
-from django.utils.timezone import timedelta, now
+from django.utils.timezone import now, timedelta
 from django.contrib.messages.storage import default_storage
 
 from stored_messages import add_message, STORED_ERROR

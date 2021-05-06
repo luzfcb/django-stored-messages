@@ -4,7 +4,7 @@ from .settings import stored_messages_settings
 from .backends.exceptions import MessageTypeNotSupported
 
 
-class StorageMixin(object):
+class StorageMixin:
     """
     This mixin implements a message storage compliant with
     `django.contrib.messages` which stores messages on the database when
@@ -14,19 +14,20 @@ class StorageMixin(object):
     implementing a storage, tipically one of the three provided by Django out
     of the box.
     """
+
     def __init__(self, request, *args, **kwargs):
         self.user = request.user
         BackendClass = stored_messages_settings.STORAGE_BACKEND
         self.backend = BackendClass()
-        super(StorageMixin, self).__init__(request, *args, **kwargs)
+        super().__init__(request, *args, **kwargs)
 
     def _get(self, *args, **kwargs):
         """
         Retrieve unread messages for current user, both from the inbox and
         from other storages
         """
-        messages, all_retrieved = super(StorageMixin, self)._get(*args, **kwargs)
-        if self.user.is_authenticated():
+        messages, all_retrieved = super()._get(*args, **kwargs)
+        if self.user.is_authenticated:
             inbox_messages = self.backend.inbox_list(self.user)
         else:
             inbox_messages = []
@@ -51,8 +52,8 @@ class StorageMixin(object):
         if level < self.level:
             return
         # Check if the message doesn't have a level that needs to be persisted
-        if level not in stored_messages_settings.STORE_LEVELS or self.user.is_anonymous():
-            return super(StorageMixin, self).add(level, message, extra_tags)
+        if level not in stored_messages_settings.STORE_LEVELS or self.user.is_anonymous:
+            return super().add(level, message, extra_tags)
 
         self.added_new = True
         m = self.backend.create_message(level, message, extra_tags)
@@ -70,7 +71,7 @@ class StorageMixin(object):
         else contains both new and unread messages
         """
         contrib_messages = []
-        if self.user.is_authenticated():
+        if self.user.is_authenticated:
             if not messages:
                 # erase inbox
                 self.backend.inbox_purge(self.user)
@@ -81,7 +82,7 @@ class StorageMixin(object):
                     except MessageTypeNotSupported:
                         contrib_messages.append(m)
 
-        super(StorageMixin, self)._store(contrib_messages, response, *args, **kwargs)
+        super()._store(contrib_messages, response, *args, **kwargs)
 
     def _prepare_messages(self, messages):
         """

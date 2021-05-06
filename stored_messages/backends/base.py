@@ -1,8 +1,8 @@
-
-class StoredMessagesBackend(object):
+class StoredMessagesBackend:
     """
 
     """
+
     def create_message(self, level, msg_text, extra_tags, date=None):
         """
         Create and return a `Message` instance.

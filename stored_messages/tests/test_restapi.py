@@ -1,15 +1,12 @@
-# -*- coding: utf-8 -*-
-from __future__ import unicode_literals
-
 import json
 
 from unittest import skipUnless
-from django.core.urlresolvers import reverse
 from django.test.utils import override_settings
 
 from stored_messages.constants import STORED_ERROR
 
 from .base import BackendBaseTest
+from django.urls import reverse
 
 try:
     import rest_framework  # noqa

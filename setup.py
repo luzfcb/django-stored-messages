@@ -1,9 +1,9 @@
-# -*- coding: utf-8 -*-
 #!/usr/bin/env python
 
 import os
 import sys
 import re
+
 
 def get_version(package):
     """
@@ -23,7 +23,7 @@ except ImportError:
 if sys.argv[-1] == 'publish':
     os.system('python setup.py sdist upload')
     print("You probably want to also tag the version now:")
-    print("  git tag -a %s -m 'version %s'" % (version, version))
+    print(f"  git tag -a {version} -m 'version {version}'")
     print("  git push --tags")
     sys.exit()
 
@@ -37,13 +37,13 @@ setup(
     long_description=readme + '\n\n' + history,
     author='evonove',
     author_email='info@evonove.it',
-    url='https://github.com/evonove/django-stored-messages',
+    url='https://github.com/luzfcb/django-stored-messages',
     packages=[
         'stored_messages',
     ],
     include_package_data=True,
     install_requires=[
-        'Django>=1.8',
+        'Django>=2.2',
     ],
     license="BSD",
     zip_safe=False,
@@ -51,15 +51,11 @@ setup(
     classifiers=[
         'Development Status :: 5 - Production/Stable',
         'Framework :: Django',
-        'Framework :: Django :: 1.8',
-        'Framework :: Django :: 1.9',
+        'Framework :: Django :: 2.2',
         'Intended Audience :: Developers',
         'License :: OSI Approved :: BSD License',
         'Natural Language :: English',
-        "Programming Language :: Python :: 2",
-        'Programming Language :: Python :: 2.7',
         'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.4',
-        'Programming Language :: Python :: 3.5',
+        'Programming Language :: Python :: 3.6',
     ],
 )

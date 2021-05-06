@@ -33,9 +33,9 @@ Features
 Compatibility table
 -------------------
 
-* Python 2.7, 3.4, 3.5
-* Django 1.8, 1.9
-* Django Rest Framework >= 3.3 (only if you want to use REST endpoints)
+* Python 3.6
+* Django 2.2
+* Django Rest Framework >= 3.10 (only if you want to use REST endpoints)
 
 Do you use an earlier version of Django or Django Rest Framework? An `old version of stored_messages`_ is available even
 if it's **not supported anymore**. Anyway, plan a migration to a newer version.
@@ -45,10 +45,10 @@ if it's **not supported anymore**. Anyway, plan a migration to a newer version.
 Documentation
 -------------
 
-The full documentation is at http://django-stored-messages.rtfd.org. It includes `migration instructions`_ if you're
+The full documentation is at https://django-stored-messages.readthedocs.io/en/latest/. It includes `migration instructions`_ if you're
 migrating from an earlier version of ``stored_messages``.
 
-.. _migration instructions: http://django-stored-messages.readthedocs.org/en/latest/migrations.html
+.. _migration instructions: http://django-stored-messages.readthedocs.io/en/latest/migrations.html
 
 Quickstart
 ----------
@@ -130,6 +130,33 @@ You can mark a stored message as read at any time:
 .. code-block:: python
 
     stored_messages.mark_read(request.user, message)
+
+You can mark all stored messages as read at any time:
+
+.. code-block:: python
+
+    stored_messages.mark_all_read(request.user)
+
+You can send a message to multiple users without having access to a request object:
+
+.. code-block:: python
+
+    users = [user_instance_1, user_instance_2]
+    stored_messages.add_message_for(users, stored_messages.INFO, 'Hello!')
+
+You can send a message to all users aka broadcast:
+
+.. code-block:: python
+
+    stored_messages.broadcast_message(stored_messages.INFO, 'Hello!')
+
+You can mark a message instance as read for user.
+
+.. code-block:: python
+
+    stored_messages.mark_read(user_instance, message_instance)
+
+
 
 Want to store your messages on Redis instead of your database? Here you go:
 

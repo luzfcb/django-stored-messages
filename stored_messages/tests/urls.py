@@ -1,14 +1,11 @@
-from django.contrib import admin
-from django.conf.urls import url, include
+from django.conf.urls import include
 
 from stored_messages.tests.views import message_view, message_create, message_create_mixed
-
-
-admin.autodiscover()
+from django.urls import path
 
 urlpatterns = [
-    url(r'^consume$', message_view),
-    url(r'^create$', message_create),
-    url(r'^create_mixed$', message_create_mixed),
-    url(r'^messages', include('stored_messages.urls', namespace='stored_messages'))
+    path('consume', message_view),
+    path('create', message_create),
+    path('create_mixed', message_create_mixed),
+    path('messages', include(('stored_messages.urls', 'reviews'), namespace='stored_messages'))
 ]

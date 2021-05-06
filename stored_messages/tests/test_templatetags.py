@@ -1,7 +1,3 @@
-# -*- coding: utf-8 -*-
-
-from __future__ import unicode_literals
-
 from django.template import RequestContext, Template
 
 from .base import BaseTest
@@ -64,5 +60,5 @@ class TestStoredMessagesTags(BaseTest):
             real_count = haystack.count(needle)
             return self.assertEqual(real_count, count)
         else:
-            return super(TestStoredMessagesTags, self).assertInHTML(
+            return super().assertInHTML(
                 needle, haystack, count, msg_prefix)

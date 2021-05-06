@@ -1,5 +1,5 @@
-from rest_framework import viewsets
-from rest_framework.decorators import api_view, detail_route
+from rest_framework import viewsets, status
+from rest_framework.decorators import api_view, action
 from rest_framework.response import Response
 
 from django.contrib.auth.decorators import login_required
@@ -13,6 +13,7 @@ class InboxViewSet(viewsets.ViewSet):
     Provides `list` and `detail` actions, plus a `read` POST endpoint for
     marking inbox messages as read.
     """
+
     def list(self, request):
         from .settings import stored_messages_settings
         backend = stored_messages_settings.STORAGE_BACKEND()
@@ -26,13 +27,13 @@ class InboxViewSet(viewsets.ViewSet):
 
         try:
             msg = backend.inbox_get(request.user, pk)
-        except MessageDoesNotExist as e:
-            return Response(e.message, status='404')
+        except MessageDoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
 
         serializer = InboxSerializer(msg, many=False)
         return Response(serializer.data)
 
-    @detail_route(methods=['POST'])
+    @action(detail=True, methods=['POST'])
     def read(self, request, pk=None):
         """
         Mark the message as read (i.e. delete from inbox)
@@ -42,8 +43,8 @@ class InboxViewSet(viewsets.ViewSet):
 
         try:
             backend.inbox_delete(request.user, pk)
-        except MessageDoesNotExist as e:
-            return Response(e.message, status='404')
+        except MessageDoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
 
         return Response({'status': 'message marked as read'})
 
